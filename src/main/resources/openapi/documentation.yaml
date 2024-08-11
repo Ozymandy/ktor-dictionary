@@ -1,0 +1,91 @@
+openapi: "3.0.3"
+info:
+  title: "KateMedia Task"
+  description: "KateMedia"
+  version: "1.0.0"
+servers:
+  - url: "https://localhost:8444"
+paths:
+  /dictionaries:
+    post:
+      description: "Creates a new counter"
+      requestBody:
+        description: "Counter"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Dictionary"
+      responses:
+        "201":
+          description: "Created"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Counter created"
+    get:
+      description: "Returns a counter by counter name"
+      parameters:
+        - name: "counter"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Dictionary"
+  /dictionaries/{counter}:
+    delete:
+      description: "Delete a counter by counter name"
+      parameters:
+        - name: "counter"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      description: "Increment a value for a counter by counter name"
+      parameters:
+        - name: "counter"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Dictionary"
+  /dictionaries/all:
+    get:
+      description: "Returns all dictionaries"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: "List"
+
+components:
+  schemas:
+    Dictionary:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        counter:
+          type: "integer"
+          format: "int32"
